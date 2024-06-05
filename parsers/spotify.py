@@ -1,4 +1,5 @@
 import json
+from typing import List
 import stream_parser
 import spotify_objs
 
