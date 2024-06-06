@@ -27,7 +27,7 @@ def parse_marquee():
 
 def main():
     segments = parse_marquee()
-    print(segments)
+    streams = stream_parser.getStreams()
 
 if __name__ == "__main__":
     main()

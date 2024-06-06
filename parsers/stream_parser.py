@@ -24,7 +24,7 @@ def getStreamFiles():
     files.append("SpotifyAccountData/StreamingHistory_music_6.json")
     return files
 
-def main():
+def getStreams():
 
     files = [] #list of json files that will be parsed
     fileDicts: List[Dict] = [] #list of dictionaries that are returned from getFileAsDict
@@ -33,6 +33,8 @@ def main():
     for f in files:
         fileDicts.append(getFileAsDict(f))
 
+    streams = []
+    for d in fileDicts:
+        streams += d
 
-if __name__ == "__main__":
-    main()
+    return streams
