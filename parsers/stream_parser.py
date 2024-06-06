@@ -10,10 +10,29 @@ def getFileAsDict(filename):
     data = json.loads(file_content) #creates a list of dicts
     return data
 
+def getStreamFiles():
+    """
+    gets any streaming history files and returns a list of strings
+    """
+    files = []
+    files.append("SpotifyAccountData/StreamingHistory_music_0.json")
+    files.append("SpotifyAccountData/StreamingHistory_music_1.json")
+    files.append("SpotifyAccountData/StreamingHistory_music_2.json")
+    files.append("SpotifyAccountData/StreamingHistory_music_3.json")
+    files.append("SpotifyAccountData/StreamingHistory_music_4.json")
+    files.append("SpotifyAccountData/StreamingHistory_music_5.json")
+    files.append("SpotifyAccountData/StreamingHistory_music_6.json")
+    return files
+
 def main():
+
     files = [] #list of json files that will be parsed
     fileDicts: List[Dict] = [] #list of dictionaries that are returned from getFileAsDict
-    files.append("SpotifyAccountData/StreamingHistory_music_0.json")
+
+    files = getStreamFiles()
+    for f in files:
+        fileDicts.append(getFileAsDict(f))
+
 
 if __name__ == "__main__":
     main()
