@@ -3,6 +3,12 @@ from typing import List
 import stream_parser
 import spotify_objs
 
+"""
+Main file for parsing spotify data
+End goal is to have this program format the data in a more accessible way
+"""
+
+#should probably move this function elsewhere
 def parse_marquee():
     """
     Returns a dictionary where the keys are segments
