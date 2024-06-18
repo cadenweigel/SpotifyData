@@ -1,6 +1,6 @@
 import json
 from typing import List, Dict
-import spotify_objs
+from spotify_objs import *
 
 
 def getFileAsDict(filename):
@@ -33,8 +33,16 @@ def getStreams():
     for f in files:
         fileDicts.append(getFileAsDict(f))
 
-    streams = []
+    streams: List[Dict] = []
     for d in fileDicts:
-        streams += d
+        streams += d #add every dict in d to streams
 
     return streams
+
+def parseStreams(streams: Dict, songs: List[Song], artists: List[Artist]):
+    """
+    Loops through streams and populates the songs and artists lists
+    When a stream is parsed, it will check for that song and artist existing already
+    By first checking that the artist exists, and then checking the artist's songs
+    """
+    pass
