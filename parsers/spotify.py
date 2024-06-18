@@ -10,9 +10,8 @@ End goal is to have this program format the data in a more accessible way
 """
 
 def main():
-    segments = parser.parse_marquee()
-    streams = stream_parser.getStreams()
-    artists = parser.get_segment_artists("Super Listeners")
+    Artists = ArtistList()
+    Songs = SongList()
 
 
 if __name__ == "__main__":
