@@ -19,6 +19,10 @@ def main():
     streams = stream_parser.getStreams()
     bounds = stream_parser.getStreamBounds(streams) #gives the dates that all streams occur within
     
+    #get streams loaded into Artists and Songs
+    stream_parser.parseStreams(streams, Songs, Artists)
+    
+    
 
 if __name__ == "__main__":
     main()

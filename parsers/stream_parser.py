@@ -51,10 +51,37 @@ def getStreamBounds(streams: List[Dict]):
     return (start, end)
 
 
-def parseStreams(streams: Dict, songs: List[Song], artists: List[Artist]):
+def parseStreams(streams: Dict, songs: SongList, artists: ArtistList):
     """
     Loops through streams and populates the songs and artists lists
+
     When a stream is parsed, it will check for that song and artist existing already
     By first checking that the artist exists, and then checking the artist's songs
+    Each stream gives us artistName, trackName, and msPlayed
+
+    Returns nothing but updates songs and artists
     """
-    pass
+
+    for stream in streams:
+    
+        stream_artist = artists.get_artist(stream['artistName'])
+
+        if stream_artist == None:
+            #artist hasn't been added yet
+            stream_artist = Artist(stream['artistName'])
+            artists.append(stream_artist)
+        
+        stream_song = stream_artist.songs.get_song(stream['trackName'])
+
+        if stream_song == None:
+            #song hasn't been added yet
+            stream_song = Song(stream['trackName'], stream_artist)
+            stream_artist.songs.append(stream_song) #add to artist's SongList
+            songs.append(stream_song) #add to the global SongList
+
+        stream_artist.streams += 1
+        stream_artist.listenTime += stream['msPlayed']
+        stream_song.streams += 1
+        stream_song.listenTime += stream['msPlayed']
+        
+
