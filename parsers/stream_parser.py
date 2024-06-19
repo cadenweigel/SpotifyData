@@ -13,6 +13,9 @@ def getFileAsDict(filename):
 def getStreamFiles():
     """
     gets any streaming history files and returns a list of strings
+    want to automate it eventually (not type in file names manually)
+    should be able to check string until it gets to a number
+    SpotifyAccountData/StreamingHistory_music_ would indicate a valid file
     """
     files = []
     files.append("SpotifyAccountData/StreamingHistory_music_0.json")
@@ -38,6 +41,15 @@ def getStreams():
         streams += d #add every dict in d to streams
 
     return streams
+
+def getStreamBounds(streams: List[Dict]):
+    """
+    returns a tuple of the first and last endTimes in streams
+    """
+    start = streams[0]['endTime']
+    end = streams[len(streams)-1]['endTime']
+    return (start, end)
+
 
 def parseStreams(streams: Dict, songs: List[Song], artists: List[Artist]):
     """

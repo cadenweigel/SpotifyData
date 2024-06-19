@@ -49,6 +49,8 @@ class ArtistList():
         return self.artists
     def __contains__(self, candidate: Artist):
         return candidate in self.artists
+    def append(self, new: Artist):
+        self.artists.append(new)
 
 class SongList():
     def __init__(self) -> None:
@@ -57,4 +59,6 @@ class SongList():
         return self.songs
     def __contains__(self, candidate: Song):
         return candidate in self.songs
+    def append(self, new: Song):
+        self.songs.append(new)
         
