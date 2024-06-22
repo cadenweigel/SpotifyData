@@ -7,13 +7,21 @@ class Artist():
     """
 
     def __init__(self, name: str) -> None:
+
+        #General Artist Info
         self.songs = SongList()
+        self.albums: List[Album] = []
         self.name = name
+
+        #Listening statistics
         self.streams = 0 
         self.listenTime = 0
+        self.firstStream = "" #to have bounds in which streams of artist occur
+        self.lastStream = ""
 
     def __str__(self):
         return self.name
+
 
 class Song():
     """
@@ -22,10 +30,16 @@ class Song():
     """
 
     def __init__(self, title: str, artist: Artist) -> None:
+
+        #General Song Info
         self.title = title
         self.artist = artist
+
+        #Listening statistics
         self.streams = 0 #initialized to 0 since the stream will be added later
         self.listenTime = 0
+        self.firstStream = ""
+        self.lastStream = ""
 
     def __str__(self):
         return self.title #FIXME: rework to give name, artist, streams
@@ -39,7 +53,18 @@ class Song():
         return self.listenTime / self.streams #FIXME: rework to return in time format?
 
 
+class Album():
+    """
+    Contains a SongList and a title
+    """
+
+    def __init__(self, songs, title) -> None:
+        self.songs: SongList = songs
+        self.title = title
+
+
 class ArtistList():
+
     def __init__(self) -> None:
         self.artists: List[Artist] = []
 
@@ -57,6 +82,11 @@ class ArtistList():
     def append(self, new: Artist):
         self.artists.append(new)
 
+    def sort(self):
+        #sorts artists in list by streams
+        pass
+
+
 class SongList():
     def __init__(self) -> None:
         self.songs: List[Song] = []
@@ -72,4 +102,8 @@ class SongList():
     
     def append(self, new: Song):
         self.songs.append(new)
+
+    def sort(self):
+        #sorts songs in list by streams
+        pass
         

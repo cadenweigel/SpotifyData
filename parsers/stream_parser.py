@@ -70,6 +70,7 @@ def parseStreams(streams: Dict, songs: SongList, artists: ArtistList):
             #artist hasn't been added yet
             stream_artist = Artist(stream['artistName'])
             artists.append(stream_artist)
+            stream_artist.firstStream = stream['endTime']
         
         stream_song = stream_artist.songs.get_song(stream['trackName'])
 
@@ -78,10 +79,14 @@ def parseStreams(streams: Dict, songs: SongList, artists: ArtistList):
             stream_song = Song(stream['trackName'], stream_artist)
             stream_artist.songs.append(stream_song) #add to artist's SongList
             songs.append(stream_song) #add to the global SongList
+            stream_song.firstStream = stream['endTime']
 
         stream_artist.streams += 1
         stream_artist.listenTime += stream['msPlayed']
+        stream_artist.lastStream = stream['endTime']
+
         stream_song.streams += 1
         stream_song.listenTime += stream['msPlayed']
+        stream_song.lastStream = stream['endTime']
         
 
