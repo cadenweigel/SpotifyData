@@ -24,7 +24,7 @@ def main():
     #get streams loaded into Artists and Songs
     stream_parser.parseStreams(streams, Songs, Artists)
     stream_parser.sortSongs(Songs, 0, len(Songs.songs)-1)
-    
+    stream_parser.sortArtists(Artists, 0, len(Artists.artists)-1)
     
     
 

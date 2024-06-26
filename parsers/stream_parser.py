@@ -109,7 +109,7 @@ def partitionSongs(songs: SongList, low: int, high: int):
     i = low - 1 #pointer for greater element
 
     for j in range(low, high):
-        if songs.songs[j].streams <= pivot:
+        if songs.songs[j].streams >= pivot:
             i = i + 1 #swap it with the greater element pointed by i
             (songs.songs[i], songs.songs[j]) = (songs.songs[j], songs.songs[i])
 
@@ -117,3 +117,31 @@ def partitionSongs(songs: SongList, low: int, high: int):
     (songs.songs[i+1], songs.songs[high]) = (songs.songs[high], songs.songs[i+1])
 
     return i + 1 #Return the position from where partition is done
+
+def sortArtists(artists: ArtistList, low: int, high: int):
+
+    if low < high:
+
+        # Find pivot element such that
+        # elements smaller than pivot are on the left
+        # elements greater than pivot are on the right
+        pi = partitionArtists(artists, low, high) #pivot index
+
+        sortArtists(artists, low, pi - 1) #Recursive call on the left of pivot
+        sortArtists(artists, pi + 1, high) #Recursive call on the right of pivot
+
+
+def partitionArtists(artists: ArtistList, low: int, high: int):
+    
+    pivot = artists.artists[high].streams #choose the rightmost element as pivot
+    i = low - 1 #pointer for greater element
+
+    for j in range(low, high):
+        if artists.artists[j].streams >= pivot:
+            i = i + 1 #swap it with the greater element pointed by i
+            (artists.artists[i], artists.artists[j]) = (artists.artists[j], artists.artists[i])
+
+    #Swap the pivot element with the greater element specified by i
+    (artists.artists[i+1], artists.artists[high]) = (artists.artists[high], artists.artists[i+1])
+
+    return i + 1 #Return the position from where partition is done 
