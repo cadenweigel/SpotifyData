@@ -90,3 +90,30 @@ def parseStreams(streams: Dict, songs: SongList, artists: ArtistList):
         stream_song.lastStream = stream['endTime']
         
 
+def sortSongs(songs: SongList, low: int, high: int):
+
+    if low < high:
+
+        # Find pivot element such that
+        # elements smaller than pivot are on the left
+        # elements greater than pivot are on the right
+        pi = partitionSongs(songs, low, high) #pivot index
+
+        sortSongs(songs, low, pi - 1) #Recursive call on the left of pivot
+        sortSongs(songs, pi + 1, high) #Recursive call on the right of pivot
+
+
+def partitionSongs(songs: SongList, low: int, high: int):
+    
+    pivot = songs.songs[high].streams #choose the rightmost element as pivot
+    i = low - 1 #pointer for greater element
+
+    for j in range(low, high):
+        if songs.songs[j].streams <= pivot:
+            i = i + 1 #swap it with the greater element pointed by i
+            (songs.songs[i], songs.songs[j]) = (songs.songs[j], songs.songs[i])
+
+    #Swap the pivot element with the greater element specified by i
+    (songs.songs[i+1], songs.songs[high]) = (songs.songs[high], songs.songs[i+1])
+
+    return i + 1 #Return the position from where partition is done

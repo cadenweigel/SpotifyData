@@ -82,10 +82,6 @@ class ArtistList():
     def append(self, new: Artist):
         self.artists.append(new)
 
-    def sort(self):
-        #sorts artists in list by streams
-        pass
-
 
 class SongList():
     def __init__(self) -> None:
@@ -103,7 +99,3 @@ class SongList():
     def append(self, new: Song):
         self.songs.append(new)
 
-    def sort(self):
-        #sorts songs in list by streams
-        pass
-        
