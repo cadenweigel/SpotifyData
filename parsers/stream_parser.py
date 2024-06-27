@@ -1,4 +1,5 @@
 import json
+import os
 from typing import List, Dict
 from spotify_objs import *
 
@@ -17,15 +18,15 @@ def getStreamFiles():
     should be able to check string until it gets to a number
     SpotifyAccountData/StreamingHistory_music_ would indicate a valid file
     """
-    files = []
-    files.append("SpotifyAccountData/StreamingHistory_music_0.json")
-    files.append("SpotifyAccountData/StreamingHistory_music_1.json")
-    files.append("SpotifyAccountData/StreamingHistory_music_2.json")
-    files.append("SpotifyAccountData/StreamingHistory_music_3.json")
-    files.append("SpotifyAccountData/StreamingHistory_music_4.json")
-    files.append("SpotifyAccountData/StreamingHistory_music_5.json")
-    files.append("SpotifyAccountData/StreamingHistory_music_6.json")
-    return files
+    files = os.listdir("SpotifyAccountData")
+    stream_files = []
+    for f in files:
+        if f.startswith("StreamingHistory_music_"):
+            #since the directory isn't included when doing os.listdir
+            #it needs to be added back in the string here
+            stream_files.append("SpotifyAccountData/" + f)
+
+    return stream_files
 
 def getStreams():
 
@@ -59,6 +60,10 @@ def parseStreams(streams: Dict, songs: SongList, artists: ArtistList):
     By first checking that the artist exists, and then checking the artist's songs
     Each stream gives us artistName, trackName, and msPlayed
 
+    A stream will be added if its msPlayed is greater than 25000ms (25 seconds)
+    It's okay to add a new song or artist on a 0ms stream since their listening data 
+    is only updated if the stream is valid
+
     Returns nothing but updates songs and artists
     """
 
@@ -70,7 +75,6 @@ def parseStreams(streams: Dict, songs: SongList, artists: ArtistList):
             #artist hasn't been added yet
             stream_artist = Artist(stream['artistName'])
             artists.append(stream_artist)
-            stream_artist.firstStream = stream['endTime']
         
         stream_song = stream_artist.songs.get_song(stream['trackName'])
 
@@ -79,15 +83,22 @@ def parseStreams(streams: Dict, songs: SongList, artists: ArtistList):
             stream_song = Song(stream['trackName'], stream_artist)
             stream_artist.songs.append(stream_song) #add to artist's SongList
             songs.append(stream_song) #add to the global SongList
-            stream_song.firstStream = stream['endTime']
 
-        stream_artist.streams += 1
-        stream_artist.listenTime += stream['msPlayed']
-        stream_artist.lastStream = stream['endTime']
+        if stream['msPlayed'] > 25000:
+            #stream is only valid if it isn't 25000ms / 25s (subject to change)
 
-        stream_song.streams += 1
-        stream_song.listenTime += stream['msPlayed']
-        stream_song.lastStream = stream['endTime']
+            stream_artist.streams += 1
+            stream_artist.listenTime += stream['msPlayed']
+            stream_artist.lastStream = stream['endTime']
+
+            stream_song.streams += 1
+            stream_song.listenTime += stream['msPlayed']
+            stream_song.lastStream = stream['endTime']
+
+            if stream_artist.streams == 0:
+                #firstStream is updated here to account for 0ms streams
+                stream_artist.firstStream = stream['endTime']
+                stream_song.firstStream = stream['endTime']
         
 
 def sortSongs(songs: SongList, low: int, high: int):
